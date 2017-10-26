@@ -1,3 +1,6 @@
+%Setting the matching function
+matching_function = @ncc_matching;
+
 %Get Different Dataset Path in imgs
 folders = dir('imgs');
 roots = cell(size(folders, 1) - 2, 1);
@@ -24,7 +27,7 @@ if ~exist('result', 'dir')
 end
 
 %Setting Parameter
-scale = 0.1;
+scale = 0.125;
 threshold_ncc = 0.5;
 
 %Compute disparity for each dataset
@@ -44,9 +47,51 @@ for i=1:size(roots, 1)
     for patch_size = 5:2:9
         fprintf("Patch size: %d\n", patch_size);
         tic
-        disparity = compute_disparity(im0, im1, max_disp, patch_size, threshold_ncc, @ncc_matching);
+        disparity = compute_disparity(im0, im1, max_disp, patch_size, threshold_ncc, matching_function);
         image_res_name = char(sprintf("ncc_%d.png", patch_size));
         res_name = char(sprintf("ncc_%d.mat", patch_size));
+        toc;
+        
+        save([result_folder, '/', res_name], 'disparity');
+        fprintf("Result saved at %s\n", [result_folder, '/', res_name]);
+        
+        imwrite((disparity+1)/max(max(disparity+1)), [result_folder, '/', image_res_name]);
+        fprintf("Result image saved at %s\n", [result_folder, '/', image_res_name]);
+        
+        fprintf("---------------------------------------------------------\n")
+    end
+    
+    %run on different camera exposure
+    [im0, im1, max_disp] = preprocess(char(path), max_disparity, scale, '/im0.png', '/im1E.png');
+    fprintf("Compute on %s\n with different camera exposure", path);
+    %Loop through different patch size
+    for patch_size = 5:2:9
+        fprintf("Patch size: %d\n", patch_size);
+        tic
+        disparity = compute_disparity(im0, im1, max_disp, patch_size, threshold_ncc, matching_function);
+        image_res_name = char(sprintf("ncc_%d_E.png", patch_size));
+        res_name = char(sprintf("ncc_%d_E.mat", patch_size));
+        toc;
+        
+        save([result_folder, '/', res_name], 'disparity');
+        fprintf("Result saved at %s\n", [result_folder, '/', res_name]);
+        
+        imwrite((disparity+1)/max(max(disparity+1)), [result_folder, '/', image_res_name]);
+        fprintf("Result image saved at %s\n", [result_folder, '/', image_res_name]);
+        
+        fprintf("---------------------------------------------------------\n")
+    end
+    
+    %run on different light condition
+    [im0, im1, max_disp] = preprocess(char(path), max_disparity, scale, '/im0.png', '/im1L.png');
+    fprintf("Compute on %s\n with different light condition", path);
+    %Loop through different patch size
+    for patch_size = 5:2:9
+        fprintf("Patch size: %d\n", patch_size);
+        tic
+        disparity = compute_disparity(im0, im1, max_disp, patch_size, threshold_ncc, matching_function);
+        image_res_name = char(sprintf("ncc_%d_L.png", patch_size));
+        res_name = char(sprintf("ncc_%d_L.mat", patch_size));
         toc;
         
         save([result_folder, '/', res_name], 'disparity');

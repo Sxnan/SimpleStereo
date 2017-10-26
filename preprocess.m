@@ -1,4 +1,4 @@
-function [im0, im1, max_disp] = preprocess(path, max_disparity, scale)
+function [im0, im1, max_disp] = preprocess(path, max_disparity, scale, left_img, right_img)
     % Load the left and right images from path and scale down
     % path - path to the data folder e.g imgs/motorcycle
     %        The left image should named im0.png
@@ -8,12 +8,20 @@ function [im0, im1, max_disp] = preprocess(path, max_disparity, scale)
     %         
     % scale - default 1, scale the image
     
+    if ~exist('left_img', 'var')
+        left_img = '/im0.png';
+    end
+    if ~exist('right_img', 'var')
+        right_img = '/im1.png';
+    end
+    
+    
     if ~exist(path, 'dir')
         fprintf('%s does not exist', path);
     end
     
-    left_img_path = [path, '/im0.png'];
-    right_img_path = [path, '/im1.png'];
+    left_img_path = [path, left_img];
+    right_img_path = [path, right_img];
     
     im0 = imread(left_img_path);
     im1 = imread(right_img_path);
