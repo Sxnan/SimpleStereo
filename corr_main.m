@@ -28,7 +28,7 @@ end
 
 %Setting Parameter
 scale = 0.125;
-threshold_ncc = 500;
+threshold_corr = 0; 
 
 %Compute disparity for each dataset
 for i=1:size(roots, 1)
@@ -47,7 +47,7 @@ for i=1:size(roots, 1)
     for patch_size = 5:2:9
         fprintf("Patch size: %d\n", patch_size);
         tic
-        disparity = compute_disparity(im0, im1, max_disp, patch_size, threshold_ncc, matching_function);
+        disparity = compute_disparity(im0, im1, max_disp, patch_size, threshold_corr, matching_function);
         image_res_name = char(sprintf("corr_%d.png", patch_size));
         res_name = char(sprintf("corr_%d.mat", patch_size));
         toc;
@@ -68,7 +68,7 @@ for i=1:size(roots, 1)
     for patch_size = 5:2:9
         fprintf("Patch size: %d\n", patch_size);
         tic
-        disparity = compute_disparity(im0, im1, max_disp, patch_size, threshold_ncc, matching_function);
+        disparity = compute_disparity(im0, im1, max_disp, patch_size, threshold_corr, matching_function);
         image_res_name = char(sprintf("corr_%d_E.png", patch_size));
         res_name = char(sprintf("corr_%d_E.mat", patch_size));
         toc;
@@ -89,7 +89,7 @@ for i=1:size(roots, 1)
     for patch_size = 5:2:9
         fprintf("Patch size: %d\n", patch_size);
         tic
-        disparity = compute_disparity(im0, im1, max_disp, patch_size, threshold_ncc, matching_function);
+        disparity = compute_disparity(im0, im1, max_disp, patch_size, threshold_corr, matching_function);
         image_res_name = char(sprintf("corr_%d_L.png", patch_size));
         res_name = char(sprintf("corr_%d_L.mat", patch_size));
         toc;

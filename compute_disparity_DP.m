@@ -7,7 +7,7 @@ function disparitys = compute_disparity_DP(l_img, r_img, patch_size)
         [M, optimum] = get_optimum(dsi, 0.5);
         row_disparity = get_row_disparity(optimum, M, dsi, 0.5);
         disparitys(i, 1+offset:n-offset) = row_disparity;
-        fprintf("i=%d\n", i);
+        fprintf("line completed %d/%d\n", i, m-offset);
     end
 end
 
