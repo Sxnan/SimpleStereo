@@ -11,4 +11,4 @@ corr_main.m - compute disparity using raw cross corrletaion patch matching
 DP_main.m - compute disparity using dynamic programing
 
 To do quantitative evaluation, run quantitative_evaluation.m
-It will take the result in the result folder and compute the root mean square to the groud true.
+It will take the result in the result folder and compute the root mean square to the ground truth.
